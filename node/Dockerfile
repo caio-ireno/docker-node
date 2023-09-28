@@ -1,21 +1,13 @@
 
 # pull the Node.js Docker image
-FROM node:alpine
+FROM node
 
 # create the directory inside the container
 WORKDIR /usr/src/app
 
-# copy the package.json files from local machine to the workdir in container
-COPY package*.json ./
+ENV DOCKERIZE_VERSION v0.7.0
 
-# run npm install in our local machine
-RUN npm install
-
-# copy the generated modules and all other files to the container
-COPY . .
-
-# our app is running on port 5000 within the container, so need to expose it
-EXPOSE 5000
-
-# the command that starts our app
-CMD ["node", "index.js"]
+RUN apt-get update \
+    && apt-get install -y wget \
+    && wget -O - https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz | tar xzf - -C /usr/local/bin \
+    && apt-get autoremove -yqq --purge wget && rm -rf /var/lib/apt/lists/*

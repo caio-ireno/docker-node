@@ -7,9 +7,12 @@ services:
       - "5000:5000"
     networks:
       - nodenet
+    entrypoint: sh -c " dockerize -wait  tcp://db:3306 && npm install && node index.js"
     volumes:
       - ./node:/usr/src/app
     container_name: node_app
+    depends_on:
+      - db
 
   nginx:
     restart: always
@@ -34,8 +37,6 @@ services:
       - MYSQL_ROOT_PASSWORD=root
     networks:
       - nodenet
-    depends_on:
-      - nodeserver
 
 networks:
   nodenet:

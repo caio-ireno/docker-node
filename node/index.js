@@ -26,11 +26,8 @@ app.get("/", (req, res) => {
     // Salva os resultados em uma variável externa
     const names = results.map((row) => row.name).join(", ");
 
-    // Fecha a conexão com o banco de dados
-    connection.end();
-
-    // Envia a informação como resposta
     res.send(`Nomes no banco de dados: ${names}`);
   });
 });
+
 app.listen(5000, () => console.log("Server is up and running"));
