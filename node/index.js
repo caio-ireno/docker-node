@@ -11,8 +11,10 @@ const config = {
 
 const mysql = require("mysql");
 const connection = mysql.createConnection(config);
+var table =
+  "CREATE TABLE people (id int not null auto_increment, name VARCHAR(255), primary key(id))";
 const sql = `INSERT INTO people(name) values('Caio')`;
-connection.query(sql);
+connection.query(table);
 
 app.get("/", (req, res) => {
   const sql = "SELECT name FROM people";
